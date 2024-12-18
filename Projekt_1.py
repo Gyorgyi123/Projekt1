@@ -31,13 +31,17 @@ other freshwater genera and herring similar to those
 in modern oceans. Other fish such as paddlefish,
 garpike and stingray are also present.'''
 ]
-
-user_name = str(input("Please enter your user name: "))
-                
+               
 users = ["bob", "ann", "mike", "liz"]
 passwords = ["123", "pass123", "passeord123", "pass123"]
-selected_text = int()
-
+uppercase = 0
+titlecase = 0
+lowwercase = 0
+num_of_digits = 0
+digits = []
+words_lenght = []
+len_dict = {}
+user_name = (input("Please enter your user name: "))
 if user_name in users:
     password = str(input("Please enter your password: "))
     if password in passwords and passwords.index(password) == users.index(user_name):
@@ -54,33 +58,26 @@ We have 3 texts to be analyzed.
       "\nText 3:\n",
       TEXTS[2])
         print("-" * 40)
-        selected_text = int(input("Please select text 1, 2 or 3: "))
-        
-        if selected_text <=0 or selected_text > 3:
-            print(f"There is no text {selected_text}, terminating the program...")
-        else:
-            text = (TEXTS[selected_text - 1])
-            text = (text.replace(",", ""))
-            text = (text.replace(".", ""))
-            text = (text.split())
-            uppercase = 0
+        selected_text = (input("Please select text 1, 2 or 3: "))  
+        if not selected_text in {"1", "2", "3"}:
+            print("Invalid input, terminating the program")
+            exit()
+        else: 
+            selected_num = int(selected_text)
+            text = (TEXTS[selected_num - 1])
+            text = (text.replace(",", "").replace(".", "").split())
             for word in text:
                 if word.isalpha() and word.isupper():
                     uppercase += 1
-            titlecase = 0
-            for word in text:
-                if word.istitle():
+                if word.isalpha() and word.istitle():
                     titlecase += 1
-            lowwercase = 0
-            for word in text:
-                if word.islower():
+                if word.isalpha() and word.islower():
                     lowwercase += 1
-            num_of_digits = 0
-            digits = []
-            for word in text:
-                if word.isdecimal():
+                if word.isalpha() and word.isdecimal():
                     num_of_digits += 1
                     digits.append(word)
+                words_lenght.append(len(word))
+                lenghts = set(words_lenght)
             sum_of_digits = sum([int(item) for item in digits])
             print("-" * 40)
             print(f"You selected text {selected_text}")
@@ -90,11 +87,6 @@ We have 3 texts to be analyzed.
             print(f"There are {lowwercase} lowercase words.")
             print(f"There are {num_of_digits} numeric strings.")
             print(f"The sum of all the numbers is {sum_of_digits}.")
-            words_lenght = []
-            for word in text:
-                words_lenght.append(len(word))
-                lenghts = set(words_lenght)
-            len_dict = {}
             for leng in lenghts:
                 len_dict.update({leng:words_lenght.count(leng)})
             print(f"""
@@ -102,7 +94,7 @@ We have 3 texts to be analyzed.
 {"LEN":>4}|{"OCCURENCES":^16} \t |NR. 
 {'-' * 40}""")
             for leng in len_dict:
-                print(f"{leng:>4}|{'*' * len_dict.get(leng):<16} \t |{len_dict.get(leng)}")
+                print(f"{leng:>4}|{'*' * len_dict.get(leng):<16} \t |{len_dict.get(leng)}") 
     else:
         print("Wrong password, terminating the program....")
 else:
